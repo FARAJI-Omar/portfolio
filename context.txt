@@ -1,0 +1,190 @@
+Omar — Full-Stack Web Developer Portfolio
+
+Tech Stack:
+
+Frontend Framework: React (Vite)
+
+Styling: Tailwind CSS (or CSS Modules if specified later)
+
+Animations: Smooth scrolling + light motion
+
+Assets: I will provide images for each section and each component
+
+Behavior: Fully responsive (desktop → mobile)
+
+📄 GENERAL DESCRIPTION
+
+This is a one-page portfolio website built in React.
+
+The website is divided vertically into five main sections, each occupying 100% of the viewport height (100vh).
+Navigation between sections must be smooth, fluid, and uninterrupted.
+
+Sections (from top to bottom)
+
+Navbar (sticky, not 100vh)
+
+About (100vh)
+
+Services (100vh)
+
+Projects (100vh)
+
+Contact (100vh)
+
+Footer (100vh)
+
+Total: 5 full-height sections + sticky navbar.
+
+🧠 AI AGENT RULES (MUST FOLLOW EXACTLY)
+
+Follow the layout shown in the images I will provide
+
+For each section, I will send design images.
+
+You must reproduce exactly the structure, layout, spacing, typography, and colors.
+
+Each main section = full height (100vh)
+The final result must look like 5 consecutive fullscreen panels stacked vertically.
+
+Smooth scrolling must be implemented
+
+Native CSS scroll-behavior: smooth, or
+
+react-scroll if needed.
+
+Navbar is sticky and links scroll to their sections
+
+About → scroll to About
+
+Services → scroll to Services
+
+Projects → scroll to Projects
+
+Contact → scroll to Contact
+
+Footer → scroll to footer
+
+Component-Based Architecture
+Create these React components:
+
+Navbar.jsx
+About.jsx
+Services.jsx
+Projects.jsx
+Contact.jsx
+Footer.jsx
+
+
+All imported into App.jsx in correct vertical order.
+
+Use a clean design with good spacing
+
+No clutter
+
+Professional modern look
+
+Responsiveness required
+
+🧱 SECTION SPECIFICATION
+1. Navbar (sticky)
+
+Always visible
+
+Transparent at top → solid after scrolling
+
+Contains: Logo + links
+
+Links scroll smoothly to sections
+
+Must follow the images I provide
+
+2. About (100vh)
+
+Contains (based on images I’ll send):
+
+Developer intro
+
+Title (e.g., “Hi, I’m Omar”)
+
+Subtitle (e.g., “Full-Stack Web Developer”)
+
+Description paragraph
+
+Photo or avatar
+
+CTA buttons (if in the design)
+
+3. Services (100vh)
+
+Includes:
+
+Multiple service cards (based on my design images)
+
+Icons, titles, and descriptions
+
+Hover animations
+
+Grid or column layout depending on images
+
+4. Projects (100vh)
+
+Includes:
+
+Project cards or project slider
+
+Image + title + description + tech stack
+
+“View Project” button
+
+Light animations (fade or slide)
+
+Layout must follow provided image
+
+5. Contact (100vh)
+
+Includes:
+
+Contact info (email, links, icons)
+
+OR form (if shown in images)
+
+Clean layout
+
+Optional CTA
+
+6. Footer (100vh)
+
+Includes:
+
+Social icons
+
+Copyright
+
+Scroll-to-top arrow
+
+Matches the provided design
+
+📂 REACT PROJECT FILE STRUCTURE
+src/
+  components/
+    Navbar.jsx
+    About.jsx
+    Services.jsx
+    Projects.jsx
+    Contact.jsx
+    Footer.jsx
+  assets/
+    (all images for sections and components)
+  App.jsx
+  main.jsx
+  index.css
+
+🎬 USER EXPERIENCE FLOW
+
+User lands on top → sees About section with sticky navbar
+
+Scroll down → smooth transition into Services → Projects → Contact → Footer
+
+Navbar links jump smoothly between sections
+
+Full-screen vertical layout gives a “slide” or “panel” feeling
