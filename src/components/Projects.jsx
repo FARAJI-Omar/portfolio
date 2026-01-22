@@ -37,7 +37,7 @@ const projects = [
       'Goal setting and progress tracking',
       'Multi-currency support'
     ],
-    technologies: ['React', 'Node.js', 'Express', 'MongoDB', 'Chart.js'],
+    technologies: ['Laravel', 'Blade', 'HTML', 'CSS', 'JavaScript', 'MySQL',],
     mainImage: moneyMindMain,
     video: moneyMindVideo
   },
