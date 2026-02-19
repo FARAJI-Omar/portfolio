@@ -25,6 +25,15 @@ import tricol7 from '../assets/tricol/Capture d’écran 2025-12-30 110303.png'
 // MoneyMind assets
 import moneyMindMain from '../assets/moneymind/moneymind-img.png'
 import moneyMindVideo from '../assets/moneymind/moneymind1.mp4'
+// JobFinder assets
+import jobFinderVideo from '../assets/jobfinder/0219.mp4'
+import jobFinderMain from '../assets/jobfinder/main.png'
+import jobFinderJobs from '../assets/jobfinder/jobs.png'
+import jobFinderApplication from '../assets/jobfinder/application.png'
+import jobFinderLogin from '../assets/jobfinder/login.png'
+import jobFinderAlert from '../assets/jobfinder/alert.png'
+import jobFinderDelete from '../assets/jobfinder/deleteacc.png'
+import jobFinderLogo from '../assets/jobfinder/logo.png'
 const projects = [
   { 
     title: 'MoneyMind - Personal Finance Management',
@@ -69,6 +78,21 @@ const projects = [
     mainImage: tastyKingMain,
     video: tastyKingVideo,
     images: [tastyKing1, tastyKing2, tastyKing3, tastyKing4, tastyKing5, tastyKing6, tastyKing7, tastyKing8, tastyKing9]
+  }
+  ,{ 
+    title: 'Job Finder - Job Search Platform',
+    description: 'A modern, full-featured job search application built with Angular 20 that helps users discover job opportunities from the USA Jobs API. The application provides searching, filtering, saving favorites, and managing job applications with a responsive UI and smooth UX.',
+    features: [
+      'Authentication & user management',
+      'Job search with USA Jobs API and advanced filters',
+      'Favorites management and persistent storage',
+      'Application tracking with status and notes',
+      'Responsive UI with TailwindCSS and skeleton loaders'
+    ],
+    technologies: ['Angular 20', 'NgRx (Store & Effects)', 'TailwindCSS', 'Angular HttpClient', 'JSON Server (mock API)', 'USA Jobs API'],
+    mainImage: jobFinderMain,
+    video: jobFinderVideo,
+    images: [jobFinderJobs, jobFinderApplication, jobFinderLogin, jobFinderAlert, jobFinderDelete, jobFinderLogo]
   }
 ]
 
@@ -329,6 +353,16 @@ export default function Projects() {
                     ))}
                   </ul>
                   {/* Add GitHub links for Tasty King and Tricol */}
+                  {selectedProject.title === 'MoneyMind - Personal Finance Management' && (
+                    <a
+                      href="https://github.com/FARAJI-Omar/MoneyMind"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{ display: 'inline-block', marginTop: '12px', color: '#4078c0', fontWeight: 'bold' }}
+                    >
+                      View on GitHub
+                    </a>
+                  )}
                   {selectedProject.title === 'TastyKing - Food Ordering Platform' && (
                     <a
                       href="https://github.com/FARAJI-Omar/Tasty-King"
@@ -342,6 +376,16 @@ export default function Projects() {
                   {selectedProject.title === 'Tricol Supplier Order and Stock Management System' && (
                     <a
                       href="https://github.com/FARAJI-Omar/Tricol-API-V2"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{ display: 'inline-block', marginTop: '12px', color: '#4078c0', fontWeight: 'bold' }}
+                    >
+                      View on GitHub
+                    </a>
+                  )}
+                  {selectedProject.title === 'Job Finder - Job Search Platform' && (
+                    <a
+                      href="https://github.com/FARAJI-Omar/Job-Finder"
                       target="_blank"
                       rel="noopener noreferrer"
                       style={{ display: 'inline-block', marginTop: '12px', color: '#4078c0', fontWeight: 'bold' }}
