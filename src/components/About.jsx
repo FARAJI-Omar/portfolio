@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import personImage from '../assets/me-5.png'
-import resumePDF from '../assets/omar faraji cv en.pdf'
+import resumePDF from '../assets/omar faraji cv en-1.pdf'
 import SynthwaveCanyonShaders from './SynthwaveCanyonShaders'
 
 export default function About() {
