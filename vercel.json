@@ -1,8 +1,0 @@
-{
-  "rewrites": [
-    { "source": "/*", "destination": "/index.html" },
-    { "source": "/favicon.ico", "destination": "/src/assets/logo2.png" },
-    { "source": "/assets/logo2-Dabe7KIJ.png", "destination": "/src/assets/logo2.png" },
-    { "source": "/logo2-Dabe7KIJ.png", "destination": "/src/assets/logo2.png" }
-  ]
-}
