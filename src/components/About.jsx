@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import personImage from '../assets/me-5.png'
+import personImage from '../assets/ml2.png'
 import resumePDF from '../assets/omar faraji cv en-1.pdf'
 import SynthwaveCanyonShaders from './SynthwaveCanyonShaders'
 
@@ -41,7 +41,7 @@ export default function About() {
       <div className="about-container" style={{ position: 'relative', zIndex: 1, margin: '0 5rem' }}>
         {/* Left: Title and social */}
         <div className="about-left">
-          <h1>Omar<br />FARAJI.</h1>
+          <h1>Omar<br />FARAJI</h1>
           <div className="accent-bar"></div>
           <div className="social-links">
             <a href="https://www.linkedin.com/in/omar-faraji-1b7274332/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
@@ -65,7 +65,8 @@ export default function About() {
 
         {/* Center: Photo */}
         <div className="about-center about-image-wrapper">
-          <img 
+         <div className='image-wraper'>
+           <img 
             src={personImage} 
             alt="Omar Faraji" 
             className="about-image"
@@ -74,6 +75,7 @@ export default function About() {
               clipPath: 'inset(0 0 0% 0 )'
             }}
           />
+         </div>
         </div>
 
         {/* Right: Title, description, and CTA */}
