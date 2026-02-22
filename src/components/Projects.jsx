@@ -51,7 +51,7 @@ const projects = [
     video: moneyMindVideo
   },
   { 
-    title: 'Tricol Supplier Order and Stock Management System',
+    title: 'Tricol - Supplier Order and Stock Management System',
     description: 'Supplier Order and Stock Management built in Java/Spring Boot, projectTricol manages supplier orders, receptions and lot-based FIFO stock valuation, Tricol records inbound lots with lot number, entry date, quantity and unit purchase price, Tricol enforces FIFO consumption on exit slips and links every movement to orders and lots, Tricol provides REST endpoints to create/read/update/delete suppliers, products, orders and exit-slips, Tricol supports stock consultation, movement history and low-stock alerts.',
     features: [
       'Supplier management (CRUD, search, contact & company details, ICE)',
@@ -104,8 +104,16 @@ export default function Projects() {
   const [isFullscreen, setIsFullscreen] = useState(false)
   const [showVideo, setShowVideo] = useState(true)
   const [imageFullscreen, setImageFullscreen] = useState(false)
+  // Peek carousel: extendedSlides = [lastClone, ...projects, firstClone]
+  const [trackIndex, setTrackIndex] = useState(1)
+  const [animated, setAnimated] = useState(true)
+  const [transitioning, setTransitioning] = useState(false)
+  const timerRef = useRef(null)
   const videoRef = useRef(null)
   const videoContainerRef = useRef(null)
+
+  const extendedSlides = [projects[projects.length - 1], ...projects, projects[0]]
+  const dotIndex = (trackIndex - 1 + projects.length) % projects.length
 
   useEffect(() => {
     if (selectedProject) {
@@ -199,26 +207,114 @@ export default function Projects() {
     }
   }
 
+  const goPrev = () => {
+    if (transitioning) return
+    setTransitioning(true)
+    setAnimated(true)
+    const newIdx = trackIndex - 1
+    setTrackIndex(newIdx)
+    clearTimeout(timerRef.current)
+    timerRef.current = setTimeout(() => {
+      if (newIdx === 0) {
+        setAnimated(false)
+        setTrackIndex(projects.length)
+        requestAnimationFrame(() => requestAnimationFrame(() => setAnimated(true)))
+      }
+      setTransitioning(false)
+    }, 560)
+  }
+
+  const goNext = () => {
+    if (transitioning) return
+    setTransitioning(true)
+    setAnimated(true)
+    const newIdx = trackIndex + 1
+    setTrackIndex(newIdx)
+    clearTimeout(timerRef.current)
+    timerRef.current = setTimeout(() => {
+      if (newIdx === projects.length + 1) {
+        setAnimated(false)
+        setTrackIndex(1)
+        requestAnimationFrame(() => requestAnimationFrame(() => setAnimated(true)))
+      }
+      setTransitioning(false)
+    }, 560)
+  }
+
+  const goToSlide = (idx) => {
+    if (transitioning) return
+    setTransitioning(true)
+    setAnimated(true)
+    setTrackIndex(idx + 1)
+    clearTimeout(timerRef.current)
+    timerRef.current = setTimeout(() => setTransitioning(false), 560)
+  }
+
   return (
     <section id="projects" className="section projects-section">
-      <div className="projects-container">
-        <div className="projects-grid">
-          {projects.map((project, idx) => (
-            <div key={idx} className="project-card" onClick={() => handleProjectClick(project)}>
-              <div 
-                className="project-image"
-                style={
-                  project.mainImage 
-                    ? { 
-                        backgroundImage: `url(${project.mainImage})`, 
-                        backgroundSize: 'cover', 
-                        backgroundPosition: 'center' 
-                      } 
-                    : {}
-                }
-              ></div>
-              <h3 className="project-title">{project.title}</h3>
-            </div>
+      <div className="carousel-wrapper">
+        <div className="carousel-clip">
+          <div className="carousel-stage">
+            {extendedSlides.map((project, idx) => {
+              let offset = idx - trackIndex
+              const len = extendedSlides.length
+              if (offset === -(len - 1)) offset = 1
+              if (offset === len - 1) offset = -1
+              let cls = 'cs-hidden'
+              if (offset === 0) cls = 'cs-active'
+              else if (offset === -1) cls = 'cs-prev'
+              else if (offset === 1) cls = 'cs-next'
+              return (
+                <div
+                  key={idx}
+                  className={`cs-slide ${cls}${!animated ? ' cs-no-anim' : ''}`}
+                  onClick={offset === -1 ? goPrev : offset === 1 ? goNext : undefined}
+                >
+                  <div className="cs-bg" style={{ backgroundImage: `url(${project.mainImage})` }} />
+                  {offset === 0 && (
+                    <div className="cs-info">
+                      {/* <span className="carousel-counter">
+                        {String(dotIndex + 1).padStart(2, '0')} / {String(projects.length).padStart(2, '0')}
+                      </span> */}
+                      <h3 className="carousel-title">{project.title}</h3>
+                      {/* <div className="carousel-techs">
+                        {project.technologies.slice(0, 5).map((t, i) => (
+                          <span key={i} className="carousel-tech-tag">{t}</span>
+                        ))}
+                      </div> */}
+                      <button className="carousel-cta" onClick={() => handleProjectClick(project)}>
+                        Explore Project
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                          <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+                        </svg>
+                      </button>
+                    </div>
+                  )}
+                </div>
+              )
+            })}
+          </div>
+
+          <button className="carousel-arrow carousel-arrow-prev" onClick={goPrev} aria-label="Previous project">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+              <path d="M15 18l-6-6 6-6" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </button>
+          <button className="carousel-arrow carousel-arrow-next" onClick={goNext} aria-label="Next project">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+              <path d="M9 18l6-6-6-6" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </button>
+        </div>
+
+        <div className="carousel-dots">
+          {projects.map((_, idx) => (
+            <button
+              key={idx}
+              className={`carousel-dot${idx === dotIndex ? ' active' : ''}`}
+              onClick={() => goToSlide(idx)}
+              aria-label={`Go to project ${idx + 1}`}
+            />
           ))}
         </div>
       </div>

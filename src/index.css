@@ -201,19 +201,23 @@ body {
 }
 
 .about-image {
-  /* max-width: 100%; */
+  max-width: 100%;
   height: auto;
-  width: 125%;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   color: transparent;
   object-fit: cover;
-  max-height: 500px;
+  max-height: 450px;
   position: relative;
   z-index: 1;
-  border-radius: 50px;
-  filter: drop-shadow(0 0 30px rgba(249, 168, 37, 0.7))
+ 
+}
+.image-wraper{
+    max-height: 400px;
+
+   filter: drop-shadow(0 0 30px rgba(249, 168, 37, 0.7))
           drop-shadow(0 0 60px rgba(249, 168, 37, 0.4));
   animation: glow-pulse 5s ease-in-out infinite;
 }
@@ -224,7 +228,7 @@ body {
             drop-shadow(0 0 40px rgba(249, 168, 37, 0.3));
   }
   50% {
-    filter: drop-shadow(0 0 40px rgba(249, 168, 37, 0.8))
+    filter: drop-shadow(0 0 50px rgba(249, 168, 37, 0.8))
             drop-shadow(0 0 80px rgba(249, 168, 37, 0.5));
   }
 }
@@ -750,9 +754,9 @@ body {
   backdrop-filter: blur(2px);
 }
 
-.projects-section,
-.footer-section {
+.projects-section {
   background-color: #323647;
+  overflow: hidden;
 }
 
 /* CONTACT SECTION STYLES */
@@ -954,55 +958,242 @@ body {
 }
 
 /* PROJECTS SECTION STYLES */
-.projects-container {
+
+.carousel-wrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  padding-top: 3rem;
+}
+
+/* Outer clip — hides the bleed from prev/next slides */
+.carousel-clip {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  padding: 2.5rem 0;
+}
+
+/* Stage holds all slides absolutely positioned */
+.carousel-stage {
+  position: relative;
+  height: 430px;
+  width: 62%;
+  margin: 0 auto;
+  perspective: 900px;
+  perspective-origin: 50% 50%;
+}
+
+/* ── Base slide ─────────────────────────────────────────── */
+.cs-slide {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 2rem;
-  margin-top: 4rem;
+  border-radius: 20px;
+  overflow: hidden;
+  will-change: transform, filter, opacity;
+  transition:
+    transform  0.52s cubic-bezier(0.77, 0, 0.18, 1),
+    filter     0.52s ease,
+    opacity    0.52s ease;
 }
 
-.projects-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 3rem 8rem;
-  max-width: 87%;
-  width: 100%;
-  margin-top: 5rem;
+.cs-no-anim {
+  transition: none !important;
 }
 
-.project-card {
+/* Full-cover background image */
+.cs-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+}
+
+/* Info overlay — only shown on active slide */
+.cs-info {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 2.4rem 2.6rem 2rem;
+  background: linear-gradient(
+    to top,
+    rgba(8, 11, 22, 0.97) 0%,
+    rgba(8, 11, 22, 0.78) 40%,
+    rgba(8, 11, 22, 0.65) 62%,
+    transparent 100%
+  );
   display: flex;
   flex-direction: column;
   gap: 0.7rem;
-  align-items: center;
-  text-align: center;
 }
 
-.project-image {
-  width: 100%;
-  max-width: 380px;
-  height: 210px;
-  background-color: #d0d0d0;
-  border-radius: 12px;
-  transition: all 300ms ease;
+/* ── Slide states ───────────────────────────────────────── */
+.cs-active {
+  transform: rotateY(0deg) scale(1);
+  filter: none;
+  opacity: 1;
+  z-index: 3;
+  cursor: default;
+  box-shadow: 0 32px 80px rgba(0, 0, 0, 0.55);
+}
+
+/* Previous slide peeks from the left */
+.cs-prev {
+  transform: translateX(-87%) rotateY(44deg) scale(0.88);
+  filter: blur(4px) brightness(0.38);
+  opacity: 1;
+  z-index: 2;
   cursor: pointer;
 }
 
-
-.project-card:hover .project-image {
-  transform: translateY(-8px);
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.689);
+/* Next slide peeks from the right */
+.cs-next {
+  transform: translateX(87%) rotateY(-44deg) scale(0.88);
+  filter: blur(4px) brightness(0.38);
+  opacity: 1;
+  z-index: 2;
+  cursor: pointer;
 }
 
-.project-title {
-  font-size: 0.95rem;
-  font-weight: 600;
+.cs-prev:hover,
+.cs-next:hover {
+  filter: blur(2px) brightness(0.55);
+}
+
+.cs-hidden {
+  opacity: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Text / UI elements ─────────────────────────────────── */
+.carousel-counter {
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: #f9a825;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+.carousel-title {
+  font-size: 1.45rem;
+  font-weight: 700;
   color: #fff;
   margin: 0;
-  letter-spacing: 0.3px;
+  line-height: 1.25;
+  letter-spacing: -0.3px;
+}
+
+.carousel-techs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.carousel-tech-tag {
+  font-size: 0.74rem;
+  color: #e8eaf0;
+  background: rgba(255, 255, 255, 0.11);
+  border: 1px solid rgba(255, 255, 255, 0.17);
+  padding: 0.2rem 0.65rem;
+  border-radius: 30px;
+  font-weight: 500;
+  backdrop-filter: blur(6px);
+}
+
+.carousel-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #f9a825;
+  color: #1a1e2e;
+  border: none;
+  padding: 0.6rem 1.3rem;
+  border-radius: 50px;
+  font-size: 0.87rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 250ms ease;
+  width: fit-content;
+  letter-spacing: 0.2px;
+  margin-top: 0.2rem;
+}
+
+.carousel-cta:hover {
+  background: #ffbb33;
+  transform: translateX(4px);
+  box-shadow: 0 8px 24px rgba(249, 168, 37, 0.4);
+}
+
+/* ── Arrow buttons (inside carousel-clip, positioned at stage edges) ── */
+.carousel-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: #fff;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 220ms ease;
+  backdrop-filter: blur(10px);
+  z-index: 10;
+}
+
+.carousel-arrow:hover {
+  background: rgba(249, 168, 37, 0.25);
+  border-color: #f9a825;
+  color: #f9a825;
+  transform: translateY(-50%) scale(1.1);
+}
+
+/* Position arrows just outside the 62%-wide stage */
+.carousel-arrow-prev {
+  left: calc(19% - 56px);
+}
+
+.carousel-arrow-next {
+  right: calc(19% - 56px);
+}
+
+/* ── Dot indicators ─────────────────────────────────────── */
+.carousel-dots {
+  display: flex;
+  gap: 0.65rem;
+  align-items: center;
+}
+
+.carousel-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.25);
+  border: none;
+  cursor: pointer;
+  transition: all 280ms ease;
+  padding: 0;
+}
+
+.carousel-dot.active {
+  background: #f9a825;
+  width: 28px;
+  border-radius: 5px;
+}
+
+.carousel-dot:hover:not(.active) {
+  background: rgba(255, 255, 255, 0.5);
 }
 
 /* PROJECT DETAIL MODAL */
@@ -1667,24 +1858,30 @@ body {
     padding: 4rem 0;
   }
 
-  .projects-container {
-    padding: 2rem 1rem;
+  .carousel-wrapper {
+    padding-top: 2rem;
+    gap: 1.5rem;
   }
 
-  .projects-grid {
-    grid-template-columns: 1fr;
-    gap: 3rem;
-    max-width: 95%;
-    margin-top: 3rem;
+  .carousel-stage {
+    width: 78%;
+    height: 360px;
   }
 
-  .project-card {
-    max-width: 100%;
+  .carousel-arrow-prev {
+    left: calc(11% - 56px);
   }
 
-  .project-image {
-    max-width: 100%;
-    height: 180px;
+  .carousel-arrow-next {
+    right: calc(11% - 56px);
+  }
+
+  .cs-info {
+    padding: 1.6rem 1.6rem 1.4rem;
+  }
+
+  .carousel-title {
+    font-size: 1.1rem;
   }
 
   .project-detail-modal {
